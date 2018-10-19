@@ -12,6 +12,7 @@ table#table-chalkboard {
   border-image-slice: 18 17 39 17 fill;
   border-image-width: auto;
   border-image-repeat: round;
+  padding-bottom: 14px;
 }
 th {
   font-weight: normal;
