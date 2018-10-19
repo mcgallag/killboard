@@ -1,0 +1,18 @@
+table#table-frame {
+  background-color: rgb(205, 85, 69);
+}
+
+table#table-chalkboard {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18pt;
+  background-color: rgb(24, 24, 24);
+  color: rgb(218, 218, 218);
+  border: 20px solid;
+  border-image-source: url("images/chalkboard-blank.png");
+  border-image-slice: 18 17 39 17 fill;
+  border-image-width: auto;
+  border-image-repeat: round;
+}
+th {
+  font-weight: normal;
+}
