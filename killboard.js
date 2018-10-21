@@ -4,7 +4,6 @@ var source_w, source_h;
 var playerName, playerSorties, playerKills;
 var frame_rate = 1;
 var seconds_between_updates = 5;
-var startFrame = true;
 
 
 function preload() {
@@ -216,7 +215,6 @@ function getPlayerInfoCallback(playerData) {
 
 function draw() {
   if (frameCount % seconds_between_updates != 1) {
-    startFrame = false;
     return;
   }
   clear();
