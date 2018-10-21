@@ -1,14 +1,19 @@
 // font is in a spritesheet PNG
 var font_img;
 var source_w, source_h;
+var playerName, playerSorties, playerKills;
+var frame_rate = 1;
+var seconds_between_updates = 5;
+var startFrame = true;
 
 
 function preload() {
-  font_img = loadImage("images/font-3x.png");
+  font_img = loadImage("work/better_font.png");
+  getPlayerInfoFromJSON();
 }
 
 function setup() {
-  var canvas = createCanvas(640, 480);
+  var canvas = createCanvas(800, 600);
 
   canvas.parent('div-chalkboard');
   background(0, 0, 0, 0);
@@ -17,8 +22,10 @@ function setup() {
    *  so character w/h can be determined with division
    */
   source_w = int(font_img.width / 7);
-  source_h = int(font_img.height / 7);
-  console.log(source_w + ", " + source_h);
+  source_h = int(font_img.height / 6);
+
+  // very low framerate, save some computation time
+  frameRate(frame_rate);
 }
 
 /*
@@ -40,16 +47,18 @@ function bmpPrintString(s, dx, dy) {
     switch (c) {
       case '-':
         sx = 0; sy = 0;
+        sw = 23;
         break;
       case '.':
         sx = 1; sy = 0;
-        sw = int(sw / 2);
+        sw = 12;
         break;
       case '0':
         sx = 2; sy = 0;
         break;
       case '1':
         sx = 3; sy = 0;
+        sw = 15;
         break;
       case '2':
         sx = 4; sy = 0;
@@ -77,9 +86,9 @@ function bmpPrintString(s, dx, dy) {
         sx = 4; sy = 1;
         break;
       case ' ':
-        sx = 5; sy = 1;
         sw = int(sw / 2); // space characters only print half-width
-        break;
+        dx += sw;
+        continue;
 
       case 'A':
         sx = 0; sy = 2;
@@ -98,17 +107,20 @@ function bmpPrintString(s, dx, dy) {
         break;
       case 'F':
         sx = 5; sy = 2;
+        sw = 23;
         break;
       case 'G':
         sx = 6; sy = 2;
+        sw = 23;
         break;
       
       case 'H':
         sx = 0; sy = 3;
+        sw = 23;
         break;
       case 'I':
         sx = 1; sy = 3;
-        sw = int(sw / 2);
+        sw = 13;
         break;
       case 'J':
         sx = 2; sy = 3;
@@ -118,6 +130,7 @@ function bmpPrintString(s, dx, dy) {
         break;
       case 'L':
         sx = 4; sy = 3;
+        sw = 23;
         break;
       case 'M':
         sx = 5; sy = 3;
@@ -164,6 +177,11 @@ function bmpPrintString(s, dx, dy) {
         sx = 4; sy = 5;
         break;
 
+      case '\n':
+        dy += 18 + 30;
+        dx = 0;
+        break;
+
       default:
         // if we are given an unprintable char, draw a '-'
         // HACK
@@ -178,14 +196,40 @@ function bmpPrintString(s, dx, dy) {
 
     image(font_img, dx, dy, dw, dh, sx, sy, sw, sh);
     dx += dw; // add char width to destination x offset
-    dx += 1; // kerning
+    dx += 2; // kerning
   }
 }
 
+function getPlayerInfoFromJSON() {
+  loadJSON("fromgame.json", getPlayerInfoCallback, loadError);
+}
+
+function loadError(e) {
+  console.log("Error! " + e);
+}
+
+function getPlayerInfoCallback(playerData) {
+  playerName = playerData.name;
+  playerSorties = playerData.sorties;
+  playerKills = playerData.kills;
+}
+
 function draw() {
+  if (frameCount % seconds_between_updates != 1) {
+    startFrame = false;
+    return;
+  }
   clear();
-  //image(font_img, 0, 0);
-  bmpPrintString("Carrier - Tigers Claw", 135, 15);
-  bmpPrintString("Trelane was here", 10, 60);
-  noLoop();
+
+  getPlayerInfoFromJSON();
+
+  // static text
+  bmpPrintString("Carrier - Tigers Claw", 144, 12);
+  bmpPrintString("Pilot", 142, 54);
+  bmpPrintString("Sorties Kills", 455, 54);
+
+  // dynamic text
+  bmpPrintString(playerName, 10, 114);
+  bmpPrintString(str(playerSorties), 564, 114);
+  bmpPrintString(str(playerKills), 696, 114);
 }
