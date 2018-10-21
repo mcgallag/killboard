@@ -8,7 +8,7 @@ var startFrame = true;
 
 
 function preload() {
-  font_img = loadImage("work/better_font.png");
+  font_img = loadImage("images/better_font.png");
   getPlayerInfoFromJSON();
 }
 
