@@ -45,3 +45,8 @@ X: 25x30
 Y: 25x30
 Z: 25x30
 
+Player Rank:
+  0 - 2nd Lt.
+  1 - 1st Lt.
+  2 - Captain
+  3 - Major

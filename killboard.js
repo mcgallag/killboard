@@ -3,7 +3,7 @@ var font_img;
 var source_w, source_h;
 var playerName, playerSorties, playerKills;
 var frame_rate = 1;
-var seconds_between_updates = 5;
+var seconds_between_updates = 2;
 
 
 function preload() {
