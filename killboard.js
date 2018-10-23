@@ -288,6 +288,29 @@ function bmpPrintString(s, dx, dy) {
 }
 
 /*
+ * rankToString - converts an internal rank to a text representation
+ * WC stores rank as an integer:
+ *  0 - 2nd Lieutenant
+ *  1 - 1st Lieutenant
+ *  2 - Captain
+ *  3 - Major
+ */
+function rankToString(rank) {
+  switch(rank) {
+    case 0:
+      return "2nd Lt.";
+    case 1:
+      return "1st Lt.";
+    case 2:
+      return "Captain";
+    case 3:
+      return "Major";
+    default:
+      return "err";
+  }
+}
+
+/*
  * getPlayerInfoFromJSON - loads relevant game data from local JSON file
  * utilizes p5's builtin loadJSON function
  * Reference - https://p5js.org/reference/#/p5/loadJSON
@@ -316,7 +339,7 @@ function getPlayerInfoCallback(playerData) {
   playerName = playerData.name;
   playerRank = playerData.rank;
   playerSorties = playerData.sorties;
-  playerKills = playerData.kills;
+  playerKills = playerData.currentKills + playerData.boardKills;
 }
 
 // p5 draw function, called every frame
@@ -338,7 +361,7 @@ function draw() {
   bmpPrintString("Sorties Kills", 455, 54);
 
   // dynamic text
-  bmpPrintString(playerName, 10, 114);
+  bmpPrintString(rankToString(playerRank) + " " + playerName, 10, 114);
   bmpPrintString(str(playerSorties), 564, 114);
   bmpPrintString(str(playerKills), 696, 114);
 }

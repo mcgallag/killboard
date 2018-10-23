@@ -1,6 +1,8 @@
 {
-  "name": "2nd Lt. Gallagher",
-  "rank": 0,
+  "currentKills": 0,
+  "boardKills": 4,
   "sorties": 1,
-  "kills": 4
+  "rank": 0,
+  "callsign": "Trelane",
+  "name": "Gallagher"
 }
