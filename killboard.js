@@ -18,7 +18,7 @@ function preload() {
 
 // p5 setup function
 function setup() {
-  var canvas = createCanvas(800, 600);
+  var canvas = createCanvas(800, 70);
   canvas.parent("div-chalkboard");
   background(0, 0, 0, 0);
 
@@ -356,12 +356,12 @@ function draw() {
   getPlayerInfoFromJSON();
 
   // static text
-  bmpPrintString("Carrier - Tigers Claw", 144, 12);
+  /*bmpPrintString("Carrier - Tigers Claw", 144, 12);
   bmpPrintString("Pilot", 142, 54);
-  bmpPrintString("Sorties Kills", 455, 54);
+  bmpPrintString("Sorties Kills", 455, 54);*/
 
-  // dynamic text
-  bmpPrintString(rankToString(playerRank) + " " + playerName, 10, 114);
-  bmpPrintString(str(playerSorties), 564, 114);
-  bmpPrintString(str(playerKills), 696, 114);
+  // dynamic text (y 114)
+  bmpPrintString(rankToString(playerRank) + " " + playerName, 10, 15);
+  bmpPrintString(str(playerSorties), 564, 15);
+  bmpPrintString(str(playerKills), 696, 15);
 }

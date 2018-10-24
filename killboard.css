@@ -5,4 +5,10 @@ div#div-chalkboard {
   border-image-width: auto;
   border-image-repeat: round;
   width: max-content;
+  padding: 0px;
+}
+
+body {
+  margin: 0 auto;
+  padding: 0px;
 }

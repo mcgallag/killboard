@@ -10,6 +10,7 @@ setup = function()
   name = getValue("Name (Player)")
 
   changedValue = false
+  currentKillLock = false
 
   outputFormat = "{\n" ..
                  "  \"currentKills\": %d,\n" ..
@@ -31,7 +32,11 @@ getValue = function(desc)
 end
 
 writeJson = function()
-  currentKillsOutput = "  \"currentKills\": " .. currentKills .. ",\n"
+  local cko = currentKills
+  if (currentKillLock) then
+    cko = 0
+  end
+  currentKillsOutput = "  \"currentKills\": " .. cko .. ",\n"
   boardKillsOutput = "  \"boardKills\": " .. boardKills .. ",\n"
   sortiesOutput = "  \"sorties\": " .. sorties .. ",\n"
   rankOutput = "  \"rank\": " .. rank .. ",\n"
@@ -92,13 +97,20 @@ checkForChanges = function()
                   (prevRank ~= rank) or
                   (prevCallsign ~= callsign) or
                   (prevName ~= name))
-  if (prevBoardKills ~= boardKills) then
-    print("Exception")
-    local mr = addrList.getMemoryRecordByDescription("Player's Kills (In Mission)")
-    local addr = mr.getCurrentAddress()
-    currentKills = 0
-    prevCurrentKills = 0
-    writeSmallInteger(addr, currentKills)
+  if (changedValue == true) then
+    local bk = tonumber(boardKills)
+    local pbk = tonumber(prevBoardKills)
+    local ck = tonumber(currentKills)
+    local pck = tonumber(prevCurrentKills)
+    if (bk > 0 and bk == (pbk + ck)) then
+      -- we are in the debriefing
+      currentKillLock = true
+      print("currentKillLock = true")
+    end
+    if ((pck > 0) and (ck == 0)) then
+      currentKillLock = false
+      print("currentKillLock = false")
+    end
   end
 end
 
